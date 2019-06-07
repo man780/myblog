@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-
+# TODO
 class PublishedManager(models.Model):
     def get_queryset(self):
         return super(PublishedManager, self).get_queryset().filter(status='published')
@@ -23,6 +23,9 @@ class Post(models.Model):
 
     objects = models.Manager() # The default manager.
     published = PublishedManager() #Our custome manager.
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=[self.publish.year, self.publish.month, self.publish.day, self.slug])
 
     class Meta:
         ordering = ('-publish',)
